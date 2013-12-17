@@ -90,6 +90,10 @@ function replace_envs {
 		hostnames="<hostname>$address<\/hostname>${hostnames}"
 	done
 	
+	if [ -z "$OPENSHIFT_VERTX_VERTX_PROXY_PORT" ]; then
+        	OPENSHIFT_VERTX_VERTX_PROXY_PORT=7600
+	fi
+
 	pushd $OPENSHIFT_VERTX_DIR
 		sed -i -e "s/\${env.OPENSHIFT_VERTX_CLUSTER_PROXY_PORT}/${OPENSHIFT_VERTX_CLUSTER_PROXY_PORT}/g" \
 				-e "s/\${env.OPENSHIFT_VERTX_PROXY_IP}/${OPENSHIFT_VERTX_PROXY_IP}/g" \
