@@ -1,20 +1,23 @@
 Name: vertx
 Cartridge-Short-Name: VERTX
-Display-Name: Camel Vert.x KeyNote 2013
-Description: "Camel Vert.x KeyNote 2013"
-Version: '1.3'
+Display-Name: Vert.x 2.0
+Description: "Vert.x is a lightweight, high performance application platform for the JVM that's designed for modern mobile, web, and enterprise applications."
+Version: '2.0'
+Versions:
+- '2.0'
+- '1.3'
 License: LGPL
 License-Url: http://www.gnu.org/copyleft/lesser.txt
-Vendor: JBoss
+Vendor: Vert.x
 Cartridge-Version: 0.0.2
-Cartridge-Vendor: jboss
+Cartridge-Vendor: redhat
 Categories:
   - service
   - web_framework
   - java
   - jboss
   - jee_full_profile
-Website: http://www.redhat.com/products/jbossenterprisemiddleware/application-platform/
+Website: http://vertx.io/
 Help-Topics:
   "Developer Center": https://www.openshift.com/developers
 Cart-Data:
@@ -49,10 +52,10 @@ Cart-Data:
     Type: environment
     Description: "Unique ID which identified the gear. This value changes between gears."
 Provides:
-  - vertx-1.3
+  - vertx-2.0
   - "vertx"
-  - "vertx(version) = 1.3"
-  - "vertx(version) >= 1.3"
+  - "vertx(version) = 2.0"
+  - "vertx(version) >= 2.0"
 Publishes:
   publish-http-url:
     Type: "NET_TCP:httpd-proxy-info"
@@ -105,3 +108,11 @@ Endpoints:
 Additional-Control-Actions:
     - threaddump
 Install-Build-Required: false
+Version-Overrides:
+  '1.3':
+    Display-Name: Vert.x 1.3
+    Provides:
+    - vertx-1.3
+    - "vertx"
+    - "vertx(version) = 1.3"
+    - "vertx(version) >= 1.3"
