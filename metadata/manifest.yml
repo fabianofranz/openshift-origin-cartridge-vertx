@@ -9,15 +9,15 @@ Versions:
 License: LGPL
 License-Url: http://www.gnu.org/copyleft/lesser.txt
 Vendor: Vert.x
+Website: http://vertx.io/
 Cartridge-Version: 0.0.2
-Cartridge-Vendor: redhat
+Cartridge-Vendor: fabianofranz
 Categories:
   - service
   - web_framework
   - java
   - jboss
   - jee_full_profile
-Website: http://vertx.io/
 Help-Topics:
   "Developer Center": https://www.openshift.com/developers
 Cart-Data:

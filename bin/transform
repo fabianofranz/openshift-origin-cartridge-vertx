@@ -1,0 +1,37 @@
+#!/bin/bash -e
+
+source $OPENSHIFT_CARTRIDGE_SDK_BASH
+
+version=2.0
+version_name=vert.x-2.0.2-final    
+
+cp -r ${OPENSHIFT_VERTX_DIR}/versions/${version}/template/* ${OPENSHIFT_VERTX_DIR}/template
+cp -r ${OPENSHIFT_VERTX_DIR}/versions/${version}/bin/* $OPENSHIFT_VERTX_DIR/bin
+cp -r ${OPENSHIFT_VERTX_DIR}/versions/${version}/${version_name}/* $OPENSHIFT_VERTX_DIR/${version_name}
+
+if [ -z "$OPENSHIFT_VERTX_CLUSTER" ]; then
+  OPENSHIFT_VERTX_CLUSTER="${OPENSHIFT_VERTX_IP}"
+fi
+
+OPENSHIFT_VERTX_PROXY_IP=$(ping -c 1 ${OPENSHIFT_GEAR_DNS} | awk '{ print $3 ; exit }' | sed 's/(//g' | sed 's/)//g')
+
+if [ -z "$OPENSHIFT_VERTX_VERTX_PROXY_PORT" ]; then
+  OPENSHIFT_VERTX_VERTX_PROXY_PORT=7600
+fi
+
+pushd $OPENSHIFT_VERTX_DIR
+  sed -i -e "s/\${env.OPENSHIFT_VERTX_IP}/${OPENSHIFT_VERTX_IP}/g" \
+    -e "s/\${env.OPENSHIFT_VERTX_PROXY_IP}/${OPENSHIFT_VERTX_PROXY_IP}/g" \
+    -e "s/\${env.OPENSHIFT_VERTX_CLUSTER}/${OPENSHIFT_VERTX_CLUSTER}/g" \
+    ./${version_name}/conf/cluster.xml
+    
+  sed -i -e "s/\${env.OPENSHIFT_VERTX_IP}/${OPENSHIFT_VERTX_IP}/g" \
+      -e "s/\${env.OPENSHIFT_VERTX_PROXY_IP}/${OPENSHIFT_VERTX_PROXY_IP}/g" \
+      -e "s/\${env.OPENSHIFT_VERTX_VERTX_PROXY_PORT}/${OPENSHIFT_VERTX_VERTX_PROXY_PORT}/g" \
+      ./bin/run-vertx.sh
+    
+  sed -i -e "s/\${env.OPENSHIFT_VERTX_IP}/${OPENSHIFT_VERTX_IP}/g" \
+    -e "s/\${env.OPENSHIFT_VERTX_PROXY_IP}/${OPENSHIFT_VERTX_PROXY_IP}/g" \
+    ./${version_name}/bin/vertx
+    
+popd
